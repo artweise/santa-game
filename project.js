@@ -32,22 +32,33 @@ class Game {
   }
 
   updateCanvas() {
-    // this.interval = setInterval(() => {
     this.ctx.clearRect(0, 0, 430, 800); // --> garanty that canvas would be cleared and everything will draw on a new canvas
     this.ctx.drawImage(this.bg, 0, 0, 430, 800);
     updateObstacles();
     this.drawPlayer();
-    console.log(obstacles);
+    // console.log(obstacles);
     for (let i = 0; i < obstacles.length; i++) {
-      // console.log(this.player);
-      // console.log(obstacles[i]);
-      // console.log(detectCollisions(this.player, obstacles[i]));
-      this.detectCollisions(this.player, obstacles[i]);
+      // console.log(this.detectCollisions(this.player, obstacles[i]));
+      if (this.detectCollisions(this.player, obstacles[i]) === true) {
+        this.stopGame();
+      }
+      // this.detectCollisions(this.player, obstacles[i]);
     }
 
-    // checkGameOver();
-    // }, 20);
+    // this.checkGameOver();
   }
+
+  // checkGameOver() {
+  //   const crashed = (obstacle) => {
+  //     for (let i = 0; i < obstacles.length; i++) {
+  //       this.detectCollisions(this.player, obstacles[i]);
+  //     }
+  //   };
+
+  //   if (crashed) {
+  //     this.stopGame();
+  //   }
+  // }
 
   detectCollisions(rectOne, rectTwo) {
     let x1 = rectOne.posX,
@@ -58,15 +69,6 @@ class Game {
       y2 = rectTwo.posY,
       height2 = rectTwo.height,
       width2 = rectTwo.width;
-
-    console.log(x1);
-    console.log(y1);
-    console.log(height1);
-    console.log(width1);
-    console.log(x2);
-    console.log(y2);
-    console.log(height2);
-    console.log(width2);
     return (
       x1 < x2 + width2 &&
       x2 < x1 + width1 &&
@@ -74,6 +76,39 @@ class Game {
       y2 < y1 + height1
     );
   }
+
+  // detectCollisions() {
+  //     let objectSanta = this.player;
+  //     let gameObjects = [objectSanta, [obstacles]];
+  //     // Reset collision state of all objects
+  //     for (let i = 0; i < gameObjects.length; i++) {
+  //       for (let j = 0; j < obstacles.length; j++){
+  //         gameObjects[i].isColliding = false;
+  //       }}
+  //       // Start checking for collisions
+  //       for (let i = 0; i < gameObjects.length; i++) {
+  //         for (let j = 0; j < obstacles.length; j++){
+  //           gameObjects[i].isColliding = false;
+  //         }}
+  //         // Compare object1 with object2
+  //         if (
+  //           rectIntersect(
+  //             obj1.x,
+  //             obj1.y,
+  //             obj1.width,
+  //             obj1.height,
+  //             obj2.x,
+  //             obj2.y,
+  //             obj2.width,
+  //             obj2.height
+  //           )
+  //         ) {
+  //           obj1.isColliding = true;
+  //           obj2.isColliding = true;
+  //         }
+  //       }
+  //     }
+  //   }
 
   stopGame() {
     clearInterval(this.interval);
@@ -160,75 +195,10 @@ function updateObstacles() {
     let minGap = 0;
     let maxGap = 280;
     let gap = Math.floor(Math.random() * (maxGap + minGap - 1) - minGap);
-    obstacles.push(new MyObstacles(150, -150, gap, 0));
+    obstacles.push(new MyObstacles(150, 150, gap, -150));
     // console.log(obstacles);
   }
 }
-
-// function detectCollisions() {
-//   let objectSanta = game.santa;
-//   let objectTree = obstacles[i];
-//   for (let i = 0; i < obstacles.length; i++) {
-//     // Start checking for collisions
-//     objectSanta = this.player;
-//     for (let j = i + 1; j < gameObjects.length; j++) {
-//       obj2 = gameObjects[j];
-
-//       // Compare object1 with object2
-//       if (
-//         rectIntersect(
-//           obj1.x,
-//           obj1.y,
-//           obj1.width,
-//           obj1.height,
-//           obj2.x,
-//           obj2.y,
-//           obj2.width,
-//           obj2.height
-//         )
-//       ) {
-//         obj1.isColliding = true;
-//         obj2.isColliding = true;
-//       }
-//     }
-//   }
-// }
-
-// function detectCollisions(rectOne, rectTwo) {
-//   let x1 = rectOne.posX,
-//     y1 = rectOne.posY,
-//     height1 = rectOne.height,
-//     width1 = rectOne.width;
-//   let x2 = rectTwo.posX,
-//     y2 = rectTwo.posY,
-//     height2 = rectTwo.height,
-//     width2 = rectTwo.width;
-
-//   console.log(x1);
-//   console.log(y1);
-//   console.log(height1);
-//   console.log(width1);
-//   console.log(x2);
-//   console.log(y2);
-//   console.log(height2);
-//   console.log(width2);
-//   return (
-//     x1 < x2 + width2 &&
-//     x2 < x1 + width1 &&
-//     y1 < y2 + height2 &&
-//     y2 < y1 + height1
-//   );
-// }
-
-// function checkGameOver() {
-//   const crashed = obstacles.some(function (obstacle) {
-//     return this.santa.crashWith(obstacle);
-//   });
-
-//   if (crashed) {
-//     this.game.stopGame();
-//   }
-// }
 
 window.onload = () => {
   document.querySelector("#start-btn").onclick = () => {
