@@ -1,6 +1,8 @@
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 
+let score = 0;
+
 class Game {
   constructor() {
     this.ctx = null;
@@ -12,7 +14,7 @@ class Game {
   startGame() {
     const canvas = document.querySelector("#canvas");
     this.ctx = canvas.getContext("2d");
-    const santa = new Santa(100, 100, 165, 600);
+    const santa = new Santa(55, 90, 200, 600);
     this.player = santa; //will have all info about the player
     const background = new Image();
     background.src = "./images/background.png";
@@ -21,6 +23,7 @@ class Game {
       //It is important to perform the update() before the draw(), in order to draw always the latest state of the game to the canvas.
       this.updateCanvas();
       this.drawPlayer();
+
       this.interval = setInterval(() => {
         this.updateCanvas();
       }, 20);
@@ -35,9 +38,11 @@ class Game {
     this.ctx.clearRect(0, 0, 430, 800); // --> garanty that canvas would be cleared and everything will draw on a new canvas
     this.ctx.drawImage(this.bg, 0, 0, 430, 800);
     updateObstacles();
+    // updatePoints();
     this.drawPlayer();
     // console.log(obstacles);
     for (let i = 0; i < obstacles.length; i++) {
+      // !!!would like to make it as a method, but it doesn't work
       // console.log(this.detectCollisions(this.player, obstacles[i]));
       if (this.detectCollisions(this.player, obstacles[i]) === true) {
         this.stopGame();
@@ -45,7 +50,14 @@ class Game {
       // this.detectCollisions(this.player, obstacles[i]);
     }
 
+    // for (let i = 0; i < points.length; i++) {
+    //   if (this.detectCollisions(this.player, points[i]) === true) {
+    //     this.scores();
+    //   }
+    // }
+
     // this.checkGameOver();
+    this.scores();
   }
 
   // checkGameOver() {
@@ -113,6 +125,13 @@ class Game {
   stopGame() {
     clearInterval(this.interval);
   }
+
+  scores() {
+    const points = Math.floor(time / 100);
+    this.ctx.font = "22px 'Roboto', sans-serif";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText(`Score: ${points}`, 300, 50);
+  }
 }
 
 class Santa {
@@ -126,7 +145,7 @@ class Santa {
 
   createSanta() {
     const santa = new Image();
-    santa.src = "./images/santa2.png";
+    santa.src = "./images/santa-original-cut.png";
     ctx.drawImage(santa, this.posX, this.posY, this.width, this.height);
     return santa;
   }
@@ -144,24 +163,24 @@ class Santa {
   moveUp() {
     this.posY -= 10;
   }
-  // moveDown() {
-  //   this.posY += 10;
-  // }
+  moveDown() {
+    this.posY += 10;
+  }
 
   move(event) {
     switch (event) {
       case "ArrowRight":
-        if (this.posX <= 335) this.moveRight();
+        if (this.posX <= 364) this.moveRight();
         break;
       case "ArrowLeft":
-        if (this.posX >= -20) this.moveLeft();
+        if (this.posX >= 10) this.moveLeft();
         break;
       case "ArrowUp":
         if (this.posY >= 0) this.moveUp();
         break;
-      // case "ArrowDown":
-      //   if (this.posY <= 599) this.moveDown();
-      //   break;
+      case "ArrowDown":
+        if (this.posY <= 599) this.moveDown();
+        break;
     }
   }
 }
@@ -169,14 +188,18 @@ class Santa {
 class MyObstacles extends Santa {
   constructor(width, height, posX, posY) {
     super(width, height, posX, posY);
-    this.tree = this.createObstacles();
+    this.id = "obstacle";
+    this.element = this.createObstacles();
   }
 
   createObstacles() {
-    const tree = new Image();
-    tree.src = "./images/tree.png";
-    ctx.drawImage(tree, this.posX, this.posY, this.width, this.height);
-    return tree;
+    const element = new Image();
+    element.src = "./images/snowball-1.png";
+    ctx.drawImage(element, this.posX, this.posY, this.width, this.height);
+    return element;
+  }
+  drawObstacles() {
+    ctx.drawImage(this.element, this.posX, this.posY, this.width, this.height);
   }
 }
 
@@ -187,18 +210,52 @@ function updateObstacles() {
   for (i = 0; i < obstacles.length; i++) {
     //to move the obstacles, just adding sth to the y axis. To make it more difficult, we need add more
     obstacles[i].posY += 1;
-    obstacles[i].createObstacles();
+    obstacles[i].drawObstacles();
   }
   time++;
   if (time % 200 === 0) {
     let x = 430;
     let minGap = 0;
-    let maxGap = 280;
-    let gap = Math.floor(Math.random() * (maxGap + minGap - 1) - minGap);
-    obstacles.push(new MyObstacles(150, 150, gap, -150));
+    let maxGap = 330;
+    let gap = Math.floor(Math.random() * (maxGap + minGap - 1) + minGap);
+    obstacles.push(new MyObstacles(100, 100, gap, -100));
     // console.log(obstacles);
   }
 }
+
+// class MyPoints extends Santa {
+//   constructor(width, height, posX, posY) {
+//     super(width, height, posX, posY);
+//     this.id = "hot-wine";
+//     this.point = this.createPoints();
+//   }
+
+//   createPoints() {
+//     const point = new Image();
+//     point.src = "./images/hot-wine-cup.png";
+//     ctx.drawImage(point, this.posX, this.posY, this.width, this.height);
+//     return point;
+//   }
+//   drawPoints() {
+//     ctx.drawImage(this.point, this.posX, this.posY, this.width, this.height);
+//   }
+// }
+
+// let points = [];
+// function updatePoints() {
+//   for (i = 0; i < points.length; i++) {
+//     points[i].posY += 1;
+//     points[i].drawPoints();
+//   }
+//   time++;
+//   if (time % 300 === 0) {
+//     let minGap = 0;
+//     let maxGap = 330;
+//     let gap = Math.floor(Math.random() * (maxGap + minGap - 1) + minGap);
+//     points.push(new MyPoints(30, 50, gap, -30));
+//     // console.log(points);
+//   }
+// }
 
 window.onload = () => {
   document.querySelector("#start-btn").onclick = () => {
