@@ -31,7 +31,7 @@ class Game {
 
       this.interval = setInterval(() => {
         this.updateCanvas();
-      }, 12);
+      }, 10);
     };
     startScreen.style.display = "none";
     gameScreen.style.display = "block";

@@ -53,3 +53,20 @@ p {
 .start-btn:hover {
     background: #405685
 }
+
+
+.return-btn {
+    background-color: #086644;
+    color: white;
+    width: 200px;
+    height: 50px;
+    font-size: 22px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    
+}
+
+.return-btn:hover {
+    background: #405685
+}
