@@ -6,6 +6,7 @@ const gameScreen = document.getElementById("canvas-box-screen");
 const gameOverScreen = document.getElementById("game-over-screen");
 
 let cups = 0;
+let timer = 0;
 
 class Game {
   constructor() {
@@ -25,6 +26,31 @@ class Game {
     background.src = "./images/background.png";
     background.onload = () => {
       this.bg = background;
+      //It is important to perform the update() before the draw(), in order to draw always the latest state of the game to the canvas.
+      this.updateCanvas();
+      this.drawPlayer();
+
+      this.interval = setInterval(() => {
+        this.updateCanvas();
+      }, 10);
+    };
+    startScreen.style.display = "none";
+    gameScreen.style.display = "block";
+    gameOverScreen.style.display = "none";
+  }
+
+  restartGame() {
+    obstacles = [];
+    const canvas = document.querySelector("#canvas");
+    this.ctx = canvas.getContext("2d");
+    const santa = new Santa(100, 120, 200, 600);
+    this.player = santa; //will have all info about the player
+    const background = new Image();
+    background.src = "./images/background.png";
+    background.onload = () => {
+      this.bg = background;
+      cups = 0;
+      timer = 0;
       //It is important to perform the update() before the draw(), in order to draw always the latest state of the game to the canvas.
       this.updateCanvas();
       this.drawPlayer();
@@ -144,7 +170,7 @@ class Game {
   }
 
   gameTimer() {
-    const timer = Math.floor(time / 100);
+    timer = Math.floor(time / 100);
     this.ctx.font = "22px 'Roboto', sans-serif";
     this.ctx.fillStyle = "black";
     this.ctx.fillText(`Timer: ${timer}`, 300, 50);
@@ -289,16 +315,16 @@ function updatePoints() {
 }
 
 window.onload = () => {
-  document.querySelectorAll(".start-btn")[0].onclick = () => {
+  document.querySelector(".start-btn").onclick = () => {
     const game = new Game();
     game.startGame();
     document.addEventListener("keydown", (e) => {
       game.player.move(e.key);
       // console.log(e.key);
     });
-    document.querySelectorAll(".start-btn")[1].onclick = () => {
+    document.querySelector(".return-btn").onclick = () => {
       const game = new Game();
-      game.startGame();
+      game.restartGame();
       document.addEventListener("keydown", (e) => {
         game.player.move(e.key);
         // console.log(e.key);
