@@ -1,6 +1,17 @@
 body {
     background-color: #E9E3E9;
     font-family: 'Roboto', sans-serif;
+    background-image: url(./images/flakes.png);
+    background-repeat: no-repeat;
+    /* background-image: cover; */
+    background-size: cover;
+}
+
+p {
+    margin: 50px 0;
+    font-size: larger;
+    font-weight: 700;
+
 }
 
 #canvas {
@@ -8,20 +19,37 @@ body {
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
-    display: block;
     /* border: 1px solid red; */
 }
 
-#canvas-box {
+#canvas-box-screen {
     text-align: center;
 }
 
-/* #start-btn{
-    padding: 300;
-    margin: auto;
-    display: flex; 
-    border: 1px solid red;
+#start-screen {
+    margin-top: 200px;
+    display: block;
     text-align: center;
-    background-color: red;
+}
+
+#game-over-screen {
+    display: none;
+    margin-top: 300px;
+    text-align: center;
+ }
+
+.start-btn {
+    background-color: #128E62;
     color: white;
-} */
+    width: 200px;
+    height: 50px;
+    font-size: 22px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    
+}
+
+.start-btn:hover {
+    background: #405685
+}

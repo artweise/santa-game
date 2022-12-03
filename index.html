@@ -2,29 +2,41 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="project.css">
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Open+Sans:wght@300&family=Roboto:wght@100;300;700&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Open+Sans:wght@300&family=Roboto:wght@100;300;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-   <div>
-    <p>
+   <div id="start-screen">
+    <img src="./images/santa-froh.png" width="350" height="400" alt="santa-start">
         <h1>Santa Game</h1>
         <p>Do you feel the Christmas spirit?
             <br>
             Let's check it!
             <br>
-            Press the START and have fun!
+            Press the PLAY and have fun!
         </p>
-    </p>
+        
+        <div id="start-btn-box">
+        <button class="start-btn">Play</button>     
+        </div>
    </div>
-    <div id="canvas-box">
+   
+
+    <div id="canvas-box-screen">
         <canvas id="canvas" width="430" height="800"></canvas>
+        <p>Press left or right to move Santa. 
+            <br>
+            Also Santa can go up and down.</p>
     </div>
-     <div id="start-btn-box">
-        <button id="start-btn">Start</button>     
+    <div id="game-over-screen">
+        <img src="./images/hot-wine-cup.png" width="80" height="120" alt="hot-wine-cup">
+        <h1 id="not-enough-cups">You didn't get enough cups. Play again ;-)</h1>
+            <div id="start-btn-box">
+            <button class="start-btn">Play</button>     
+            </div>
     </div>
     
   
